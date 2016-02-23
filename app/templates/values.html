@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="jumbo">
+  	<h3>Enter your values to get results</h3>
+  	{% for message in get_flashed_messages() %}
+		<div class="alert alert-info">{{ message }}</div>
+  	{% endfor %} 				
+  </div>
+
+  <form action="{{ url_for('values') }}" method="post">
+	{{form.hidden_tag()}}
+
+	{% for message in form.sales_amount.errors %}
+		<div class="flash">{{ message }}</div>
+  	{% endfor %}
+	{{ form.sales_amount.label }}
+	{{ form.sales_amount }}
+
+	{% for message in form.cost.errors %}
+		<div class="flash">{{ message }}</div>
+  	{% endfor %}
+	{{ form.cost.label }}
+	{{ form.cost }}
+
+	{% for message in form.expenses.errors %}
+		<div class="flash">{{ message }}</div>
+  	{% endfor %}
+	{{ form.expenses.label }}
+	{{ form.expenses }}
+
+	{% for message in form.tax.errors %}
+		<div class="flash">{{ message }}</div>
+  	{% endfor %}
+	{{ form.tax.label }}
+	{{ form.tax }}
+
+    {{ form.submit() }}
+	
+  </form>
+{% endblock %}

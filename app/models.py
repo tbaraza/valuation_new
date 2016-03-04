@@ -1,4 +1,4 @@
-from app import db
+from . import db
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
+    # social_id = db.Column(db.String(64), nullable=False, unique=True)
     email = db.Column(db.String, unique=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password_hash = db.Column(db.String(128))
@@ -49,3 +50,40 @@ class User(UserMixin, db.Model):
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+
+class OAuthSignIn(object):
+    providers = None
+
+    def __init__(self, provider_name):
+        self.provider_name = provider_name
+        credentials = current_app.config['OAUTH_CREDENTIALS'][provider_name]
+        self.consumer_id = credentials['id']
+        self.consumer_secret = credentials['secret']
+
+    def authorize(self):
+        pass
+
+    def callback(self):
+        pass
+
+    def get_callback_url(self):
+        return url_for('oauth_callback', provider=self.provider_name,
+                       _external=True)
+
+    @classmethod
+    def get_provider(self, provider_name):
+        if self.providers is None:
+            self.providers = {}
+            for provider_class in self.__subclasses__():
+                provider = provider_class()
+                self.providers[provider.provider_name] = provider
+        return self.providers[provider_name]
+
+
+class FacebookSignIn(OAuthSignIn):
+    pass
+
+
+class TwitterSignIn(OAuthSignIn):
+    pass

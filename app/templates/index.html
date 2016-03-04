@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="container">
+    
     <p>
     {% for message in get_flashed_messages() %}
     	<div class="alert alert-danger">
@@ -11,12 +12,15 @@
          	{{ message }}
         </div>
     {% endfor %}
-    <div class="center"></div>	
+   
+    <div class="center jumbotron">	
     {% if current_user.is_authenticated %}
-        Hello {{ current_user.username }}
-        {% include 'values.html' %}
+        {% include 'auth/values.html' %}
 	{% else %}
-	    <h1> Welcome to the profit valuation app</h1><br>
-    	<h2><strong><div class="glyphicon glyphicon">Login to Continue!</strong></h2></div>
+	    <h2> Profit Valuation App</h2><br>
+        <p>This is an application that helps calculate profits made in a certain month.</p>
+    	<p><a class="btn btn-primary btn-lg login-btn" href="/auth/login" role="button">Login to Continue!</a></p>
 	{% endif %}
+</div>
 {% endblock %}
+</div>

@@ -1,39 +1,58 @@
-{% extends "bootstrap/base.html" %} {% block title %}Valuation{% endblock %} {% block head %} {{ super() }}
+{% extends "bootstrap/base.html" %} 
+{% block title %}Valuation{% endblock %} 
+{% block head %} {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static',filename="css/styles.css") }}" type="text/css">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}" type="text/css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> 
+{% endblock %}
+{% block body %}
+{% if not current_user.is_authenticated %}
+    <div class="bg">
+    <div>
+    <!-- <img src="{{ url_for('static',filename='images/biz.jpg') }}" id="bg" alt=""> -->
+    </div>
+    <div>
+        
+    
+ {% endif %}
 {% block navbar %}
     <header>
+    <div class="nav">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">
               <strong>P</strong>rofit
                 <strong>V</strong>aluation
             </a>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <a href="{{ url_for('main.index') }}">
 
                     <span class="glyphicon glyphicon-home" aria-hidden="true" style="margin-top: 16px;"></span>
                     Home
-                </button>
             </a>
 
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
+
+               <li> <a href="#">Hello {{ current_user.username }} </a></li>
+      
                     <li><a href="{{ url_for('auth.logout') }}"><span
-                            class="glyphicon glyphicon-log-out"></span>Log Out</a></li>
+                            class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Log Out</a></li>
                 {% else %}
                     <li><a href="{{ url_for('auth.login') }}"><span
-                            class="glyphicon glyphicon-log-in"></span>&nbsp;Log In</a></li>
+                            class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Log In</a></li>
                 {% endif %}
                {# <li><a href="{{ url_for('auth.signup') }}"><span
-                        class="glyphicon glyphicon-pencil"></span>&nbsp;Sign up</a></li>#}
+                        class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Sign up</a></li>#}
             </ul>
 
 
         </div>
     </header>
-{% endblock %} {% block content %}
+{% endblock navbar %}
+
+ {% block content %}
+
     <div class="container">
         {% for message in get_flashed_messages() %}
             <div class="alert alert-warning">
@@ -42,4 +61,11 @@
             </div>
         {% endfor %} {% block page_content %}{% endblock %}
     </div>
-{% endblock %} {% block scripts %} {{ super() }} {{ moment.include_moment() }} {% endblock %}
+{% endblock content %}
+
+{% block scripts %} 
+{{ super() }} {{ moment.include_moment() }} 
+{% endblock scripts %}
+</div>
+   </div>  
+{% endblock body %}

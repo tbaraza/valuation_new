@@ -1,3 +1,76 @@
+body {
+	background-image: url("../images/background.jpg");
+}
+
 .auth-login-form{
     color:cornflowerblue;
+}
+.value-form{
+	margin-top: 50px;
+	color:black;
+}
+.nav{
+	background-color: #512DA8;
+}
+
+#text {
+	color: blue;
+}
+.jumbotron {
+	background-color: none;
+}
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+	
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.nav a{
+	color: white;
+}
+
+.nav>li>a:hover {
+	background-color: #7C4DFF;
+}
+.center{
+	max-width: 800px;
+	margin: 100px auto;
+	margin-top: 200px;
+	text-align: left;
+	background-color:rgba(209, 196, 233, 0.7);;
+}
+
+.login-btn {
+	background-color: #673AB7;
+	border-color: white;
+}
+
+.login-btn:hover {
+	background-color: #7C4DFF;
+	border-color: white;
+}
+.white-text {
+	color: white;
+	background-color: rgba(49, 112, 143, 0.58);
+	margin-top: 100px;
+	width: 500px;
+	border-radius: 10px;
+}
+a {
+	color: #E91E63;
+} 
+
+a:hover {
+	color: #FF5722;
+}
+
+.row .values {
+    margin-right: -150px;
+    margin-left: -240px;
+    width: 800px;
+    color: #512DA8;
 }

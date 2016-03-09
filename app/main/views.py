@@ -1,10 +1,14 @@
 from flask import render_template
+from app import db
+from ..models import User, History
 from . import main
+from flask.ext.login import login_user, login_required, current_user
 from flask import render_template, redirect, request, url_for, flash, g
 from forms import ValuesForm
 from flask.ext.login import login_required
 
 # index view function suppressed for brevity
+
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -37,15 +41,26 @@ def index():
                 flash(u"Error in the %s field - %s" %
                       (getattr(form, field).label.text, errors))
 
-            if form.sales_amount.data and form.cost.data and form.expenses.data and form.tax.data:
-                profit = form.sales_amount.data - form.cost.data - \
-                    form.expenses.data - form.tax.data
-                flash('Your profit is: %d' % profit)
-                return redirect(url_for('main.index'))
-
+            post = History(sales_amount=form.sales_amount.data,
+                           cost=form.cost.data,
+                           expenses=form.expenses.data,
+                           tax=form.tax.data,
+                           author=current_user._get_current_object())
+            db.session.add(post)
+            profit = form.sales_amount.data - form.cost.data - \
+                form.expenses.data - form.tax.data
+            flash('Your profit is: %d' % profit)
+            return redirect(url_for('main.index'))
         return render_template('index.html', posts=posts, form=form)
 
 
+@main.route('/user/<username>')
+def history(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+       flash('User %s not found.' % username)
+    posts = user.posts.order_by(History.timestamp.desc()).all()
+    return render_template('history.html', user=user, posts=posts)
 
 """
 @app.route('/login', methods=['GET', 'POST'])

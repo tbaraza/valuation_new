@@ -15,6 +15,20 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
+    posts = db.relationship('History', backref='author', lazy='dynamic')
+
+
+class History(UserMixin, db.Model):
+    __tablename__ = "history"
+
+    id = db.Column(db.Integer, primary_key=True)
+    sales_amount = db.Column(db.Integer)
+    cost = db.Column(db.Integer)
+    expenses = db.Column(db.Integer)
+    tax = db.Column(db.Integer)
+    profit = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, index=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def generate_confirmation_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)

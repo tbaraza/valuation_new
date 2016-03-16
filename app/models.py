@@ -17,19 +17,6 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     posts = db.relationship('History', backref='author', lazy='dynamic')
 
-
-class History(UserMixin, db.Model):
-    __tablename__ = "history"
-
-    id = db.Column(db.Integer, primary_key=True)
-    sales_amount = db.Column(db.Integer)
-    cost = db.Column(db.Integer)
-    expenses = db.Column(db.Integer)
-    tax = db.Column(db.Integer)
-    profit = db.Column(db.Integer)
-    timestamp = db.Column(db.DateTime, index=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
     def generate_confirmation_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id})
@@ -64,6 +51,23 @@ class History(UserMixin, db.Model):
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+
+class History(UserMixin, db.Model):
+    __tablename__ = "history"
+
+    id = db.Column(db.Integer, primary_key=True)
+    sales_amount = db.Column(db.Integer)
+    cost = db.Column(db.Integer)
+    expenses = db.Column(db.Integer)
+    tax = db.Column(db.Integer)
+    profit = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, index=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, **kwargs):
+        super(History, self).__init__(**kwargs)
+        pass
 
 
 class OAuthSignIn(object):

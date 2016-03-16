@@ -74,3 +74,20 @@ a:hover {
     width: 800px;
     color: #512DA8;
 }
+
+.posts {
+	color: white;
+}
+
+.post-date {
+	text-align: right;
+	color: brown;
+}
+
+.h1 {
+	color: blue
+}
+
+.my-body {
+	background-color: black;
+}

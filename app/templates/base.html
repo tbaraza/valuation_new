@@ -36,8 +36,8 @@
 
                <li> <a href="#">Hello {{ current_user.username }} </a></li>
 
-                    <li><a href="{{ url_for('main.history, username=current_user.username') }}"><span
-                            class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;History</a></li>
+                    <li><a href="{{ url_for('main.history', username=current_user.username) }}"><span
+                            class="glyphicon glyphicon-history"></span>&nbsp;&nbsp;History</a></li>
                     <li><a href="{{ url_for('auth.logout') }}"><span
                             class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Log Out</a></li>
                 {% else %}
